@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import api from '../services/api';
-import { Button, TextField, List, ListItem, ListItemText } from '@mui/material';
+import { Button, TextField, List, ListItem, ListItemText, Typography, Paper, Box } from '@mui/material';
 
 interface Professor {
     id: number;
@@ -25,22 +25,31 @@ function ProfessorList() {
     };
 
     const createProfessor = async () => {
-        await api.post('/professors', { name, cpf, departmentId });
-        fetchProfessors();
+ if (name && cpf && departmentId) {
+ await api.post('/professors', { name, cpf, departmentId });
+            setName('');
+            setCpf('');
+            setDepartmentId(0);
+ fetchProfessors();
+ } else {
+ console.log('Please fill all fields'); // Or show a user-friendly message
+ }
     };
 
     return (
-        <div>
-            <h2>Professores</h2>
-            <TextField label="Nome" value={name} onChange={(e) => setName(e.target.value)} />
-            <TextField label="CPF" value={cpf} onChange={(e) => setCpf(e.target.value)} />
-            <TextField
-                label="Department ID"
-                type="number"
-                value={departmentId}
-                onChange={(e) => setDepartmentId(Number(e.target.value))}
-            />
-            <Button onClick={createProfessor} variant="contained">Criar</Button>
+        <Box sx={{ padding: 2 }}>
+            <Typography variant="h4" gutterBottom>Professores</Typography>
+            <Box sx={{ display: 'flex', gap: 2, marginBottom: 3, flexDirection: { xs: 'column', sm: 'row' } }}>
+                <TextField label="Nome" value={name} onChange={(e) => setName(e.target.value)} fullWidth />
+                <TextField label="CPF" value={cpf} onChange={(e) => setCpf(e.target.value)} fullWidth />
+                <TextField
+                    label="Department ID"
+                    type="number"
+                    value={departmentId}
+                    onChange={(e) => setDepartmentId(Number(e.target.value))}
+ fullWidth />
+            </Box>
+            <Button onClick={createProfessor} variant="contained" sx={{ mb: 2 }}>Criar</Button>
 
             <List>
                 {professors.map((prof) => (
@@ -49,7 +58,7 @@ function ProfessorList() {
                     </ListItem>
                 ))}
             </List>
-        </div>
+        </Box>
     );
 }
 

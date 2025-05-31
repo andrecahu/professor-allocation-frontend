@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import api from '../services/api';
-import { Button, TextField, List, ListItem, ListItemText } from '@mui/material';
+import { Button, TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Box } from '@mui/material';
 
 interface Allocation {
     id: number;
@@ -40,23 +40,49 @@ function AllocationList() {
     };
 
     return (
-        <div>
-            <h2>Alocações</h2>
-            <TextField label="Dia da Semana" value={dayOfWeek} onChange={(e) => setDayOfWeek(e.target.value)} />
-            <TextField label="Hora de Início" value={startHour} onChange={(e) => setStartHour(e.target.value)} />
-            <TextField label="Hora de Fim" value={endHour} onChange={(e) => setEndHour(e.target.value)} />
-            <TextField label="ID do Professor" type="number" value={professorId} onChange={(e) => setProfessorId(Number(e.target.value))} />
-            <TextField label="ID do Curso" type="number" value={courseId} onChange={(e) => setCourseId(Number(e.target.value))} />
-            <Button onClick={createAllocation} variant="contained">Criar</Button>
+        <Box sx={{ mt: 4, mb: 4 }}>
+            <Typography variant="h4" component="h2" gutterBottom>
+                Alocações
+            </Typography>
+            <Box sx={{ display: 'flex', gap: 2, mb: 4, flexWrap: 'wrap' }}>
+                <TextField label="Dia da Semana" value={dayOfWeek} onChange={(e) => setDayOfWeek(e.target.value)} size="small" />
+                <TextField label="Hora de Início" value={startHour} onChange={(e) => setStartHour(e.target.value)} size="small" />
+                <TextField label="Hora de Fim" value={endHour} onChange={(e) => setEndHour(e.target.value)} size="small" />
+                <TextField label="ID do Professor" type="number" value={professorId} onChange={(e) => setProfessorId(Number(e.target.value))} size="small" />
+                <TextField label="ID do Curso" type="number" value={courseId} onChange={(e) => setCourseId(Number(e.target.value))} size="small" />
+                <Button onClick={createAllocation} variant="contained">Criar</Button>
+            </Box>
 
-            <List>
-                {allocations.map((alloc) => (
-                    <ListItem key={alloc.id}>
-                        <ListItemText primary={`Dia: ${alloc.dayOfWeek}, ${alloc.startHour}-${alloc.endHour}, Prof: ${alloc.professorId}, Curso: ${alloc.courseId}`} />
-                    </ListItem>
-                ))}
-            </List>
-        </div>
+            <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>ID</TableCell>
+                            <TableCell>Dia da Semana</TableCell>
+                            <TableCell>Hora de Início</TableCell>
+                            <TableCell>Hora de Fim</TableCell>
+                            <TableCell>ID do Professor</TableCell>
+                            <TableCell>ID do Curso</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {allocations.map((alloc) => (
+                            <TableRow
+                                key={alloc.id}
+                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                            >
+                                <TableCell component="th" scope="row">{alloc.id}</TableCell>
+                                <TableCell>{alloc.dayOfWeek}</TableCell>
+                                <TableCell>{alloc.startHour}</TableCell>
+                                <TableCell>{alloc.endHour}</TableCell>
+                                <TableCell>{alloc.professorId}</TableCell>
+                                <TableCell>{alloc.courseId}</TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </Box>
     );
 }
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import api from '../services/api';
-import { Button, TextField, List, ListItem, ListItemText } from '@mui/material';
+import { Button, TextField, List, ListItem, ListItemText, Paper, Typography, Container } from '@mui/material';
 
 interface Department {
     id: number;
@@ -27,19 +27,22 @@ function DepartmentList() {
     };
 
     return (
-        <div>
-            <h2>Departamentos</h2>
-            <TextField label="Nome" value={name} onChange={(e) => setName(e.target.value)} />
-            <Button onClick={createDepartment} variant="contained">Criar</Button>
-
-            <List>
-                {departments.map((dept) => (
-                    <ListItem key={dept.id}>
-                        <ListItemText primary={dept.name} />
-                    </ListItem>
-                ))}
-            </List>
-        </div>
+        <Container maxWidth="md">
+            <Typography variant="h4" gutterBottom>Departamentos</Typography>
+            <Paper elevation={3} style={{ padding: '16px', marginBottom: '16px' }}>
+                <TextField label="Nome" value={name} onChange={(e) => setName(e.target.value)} fullWidth margin="normal" />
+                <Button onClick={createDepartment} variant="contained" color="primary" style={{ marginTop: '8px' }}>Criar</Button>
+            </Paper>
+            <Paper elevation={3}>
+                <List>
+                    {departments.map((dept) => (
+                        <ListItem key={dept.id}>
+                            <ListItemText primary={dept.name} />
+                        </ListItem>
+                    ))}
+                </List>
+            </Paper>
+        </Container>
     );
 }
 

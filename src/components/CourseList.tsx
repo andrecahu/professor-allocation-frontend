@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import api from '../services/api';
-import { Button, TextField, List, ListItem, ListItemText } from '@mui/material';
+import { Button, TextField, List, ListItem, ListItemText, Paper, Typography, Container } from '@mui/material';
 
 interface Course {
     id: number;
@@ -26,21 +26,27 @@ function CourseList() {
         fetchCourses();
     };
 
-    return (
-        <div>
-            <h2>Cursos</h2>
-            <TextField label="Nome" value={name} onChange={(e) => setName(e.target.value)} />
-            <Button onClick={createCourse} variant="contained">Criar</Button>
+ return (
+ <Container>
+ <Typography variant="h4" component="h2" gutterBottom>
+ Cursos
+ </Typography>
+ <Paper elevation={2} style={{ padding: '16px', marginBottom: '16px' }}>
+ <TextField label="Nome" value={name} onChange={(e) => setName(e.target.value)} fullWidth style={{ marginRight: '8px' }} />
+ <Button onClick={createCourse} variant="contained" color="primary" style={{ marginTop: '16px' }}>
+ Criar
+ </Button>
+ </Paper>
 
-            <List>
-                {courses.map((course) => (
-                    <ListItem key={course.id}>
-                        <ListItemText primary={course.name} />
-                    </ListItem>
-                ))}
-            </List>
-        </div>
-    );
+ <List component={Paper} elevation={2}>
+ {courses.map((course) => (
+ <ListItem key={course.id}>
+ <ListItemText primary={course.name} />
+ </ListItem>
+ ))}
+ </List>
+ </Container>
+ );
 }
 
 export default CourseList;
