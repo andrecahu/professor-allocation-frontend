@@ -92,7 +92,7 @@ function ProfessorList() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                {professors.map((prof) => (
+                        {professors.map((prof) => (
                             <TableRow
                                 key={prof.id}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -104,7 +104,7 @@ function ProfessorList() {
                                     <Button variant="outlined" color="error" onClick={() => handleDeleteProfessor(prof.id)}>Excluir</Button>
                                 </TableCell>
                             </TableRow>
-                ))}
+                        ))}
                     </TableBody>
                 </Table>
             </TableContainer>

@@ -38,15 +38,15 @@ a:hover {
 }
 
 body {
-  margin: 0; /* Reset default body margin */
-  line-height: 1.6; /* Slightly increased line height for readability */
-  font-size: 1rem; /* Base font size */
+  margin: 0; 
+  line-height: 1.6; 
+  font-size: 1rem; 
   color: var(--text-color-dark);
   background-color: var(--background-color-light);
 }
 
 *, *::before, *::after {
-  box-sizing: border-box; /* Ensure padding and border are included in element's total width and height */
+  box-sizing: border-box;
 }
 
 h1 {
@@ -65,14 +65,14 @@ button {
   color: var(--text-color-light);
   cursor: pointer;
   transition: border-color 0.25s;
-  outline: none; /* Remove default outline */
+  outline: none; 
 }
 button:hover {
   background-color: var(--primary-dark);
 }
 button:focus,
 button:focus-visible {
-  border-color: var(--primary-color); /* Highlight on focus */
+  border-color: var(--primary-color);
 }
 
 @media (prefers-color-scheme: light) {

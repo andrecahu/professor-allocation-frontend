@@ -44,7 +44,7 @@ function AllocationList() {
         setEndHour(allocation.endHour);
         setProfessorId(allocation.professorId);
         setCourseId(allocation.courseId);
- setEditingAllocation(allocation);
+        setEditingAllocation(allocation);
     };
 
     const handleDeleteAllocation = async (id: number) => {
@@ -77,37 +77,36 @@ function AllocationList() {
                     courseId
                 });
             } else {
-                // Create new allocation
- await api.post('/allocations', { dayOfWeek, startHour, endHour, professorId, courseId });
+                await api.post('/allocations', { dayOfWeek, startHour, endHour, professorId, courseId });
             }
- setEditingAllocation(null);
- clearForm();
- fetchAllocations();
+            setEditingAllocation(null);
+            clearForm();
+            fetchAllocations();
         }
     };
 
     return (
         <Box sx={{ mt: 4, mb: 4 }}>
- <Typography variant="h4" component="h2" gutterBottom>
+            <Typography variant="h4" component="h2" gutterBottom>
                 Alocações
             </Typography>
- <Paper elevation={2} sx={{ padding: '16px', marginBottom: '16px', borderRadius: '4px' }}>
- <Box sx={{ display: 'flex', gap: 2, mb: 2, flexWrap: 'wrap' }}>
-                <TextField label="Dia da Semana" value={dayOfWeek} onChange={(e) => setDayOfWeek(e.target.value)} size="small" />
-                <TextField label="Hora de Início" value={startHour} onChange={(e) => setStartHour(e.target.value)} size="small" />
-                <TextField label="Hora de Fim" value={endHour} onChange={(e) => setEndHour(e.target.value)} size="small" />
-                <TextField label="ID do Professor" type="number" value={professorId} onChange={(e) => setProfessorId(Number(e.target.value))} size="small" />
-                <TextField label="ID do Curso" type="number" value={courseId} onChange={(e) => setCourseId(Number(e.target.value))} size="small" />
+            <Paper elevation={2} sx={{ padding: '16px', marginBottom: '16px', borderRadius: '4px' }}>
+                <Box sx={{ display: 'flex', gap: 2, mb: 2, flexWrap: 'wrap' }}>
+                    <TextField label="Dia da Semana" value={dayOfWeek} onChange={(e) => setDayOfWeek(e.target.value)} size="small" />
+                    <TextField label="Hora de Início" value={startHour} onChange={(e) => setStartHour(e.target.value)} size="small" />
+                    <TextField label="Hora de Fim" value={endHour} onChange={(e) => setEndHour(e.target.value)} size="small" />
+                    <TextField label="ID do Professor" type="number" value={professorId} onChange={(e) => setProfessorId(Number(e.target.value))} size="small" />
+                    <TextField label="ID do Curso" type="number" value={courseId} onChange={(e) => setCourseId(Number(e.target.value))} size="small" />
                 </Box>
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1 }}>
- {editingAllocation && (
+                    {editingAllocation && (
                         <Button onClick={() => { setEditingAllocation(null); clearForm(); }} variant="outlined">
                             Cancelar Edição
                         </Button>
- )}
- <Button onClick={handleSaveAllocation} variant="contained">{editingAllocation ? 'Salvar' : 'Criar'}</Button>
+                    )}
+                    <Button onClick={handleSaveAllocation} variant="contained">{editingAllocation ? 'Salvar' : 'Criar'}</Button>
                 </Box>
- </Paper>
+            </Paper>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>

@@ -1,6 +1,5 @@
 import DepartmentList from '../components/DepartmentList';
-import Layout from '../components/Layout';
-import { Container, Typography, Box } from '@mui/material';
+import { Container, Box } from '@mui/material';
 
 function Departments() {
     return (

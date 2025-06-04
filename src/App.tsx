@@ -5,7 +5,6 @@ import Professors from './pages/Professors';
 import Departments from './pages/Departments';
 import Allocations from './pages/Allocations';
 import Layout from './components/Layout';
-
 function App() {
     return (
         <Router>
@@ -21,5 +20,4 @@ function App() {
         </Router>
     );
 }
-
 export default App;

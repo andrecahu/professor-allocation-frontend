@@ -1,6 +1,5 @@
 import CourseList from '../components/CourseList';
-import Layout from '../components/Layout';
-import { Container, Typography, Box } from '@mui/material';
+import { Container, Box } from '@mui/material';
 
 function Courses() {
     return (

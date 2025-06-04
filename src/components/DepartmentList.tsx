@@ -56,14 +56,14 @@ function DepartmentList() {
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                     <TextField label="Nome" value={name} onChange={(e) => setName(e.target.value)} fullWidth margin="normal" />
                     <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
- <Button onClick={editingDepartment ? handleSaveDepartment : createDepartment} variant="contained" color="primary">
+                        <Button onClick={editingDepartment ? handleSaveDepartment : createDepartment} variant="contained" color="primary">
                             {editingDepartment ? 'Salvar' : 'Criar'}
- </Button>
+                        </Button>
                         {editingDepartment && <Button onClick={() => { setName(''); setEditingDepartment(null); }} variant="outlined" sx={{ ml: 1 }}>Cancelar Edição</Button>}
                     </Box>
                 </Box>
             </Paper>
- <Paper elevation={3}>
+            <Paper elevation={3}>
                 <TableContainer>
                     <Table>
                         <TableHead>

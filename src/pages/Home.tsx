@@ -1,5 +1,4 @@
 import { Typography, Container, Box, Card, CardContent } from '@mui/material';
-import Layout from '../components/Layout'; // Certifique-se que o caminho está correto
 
 function Home() {
     return (
