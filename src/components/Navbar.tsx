@@ -1,7 +1,7 @@
 import { AppBar, Toolbar, Typography, Button, Box, IconButton, Drawer, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
 import { Link } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 function Navbar() {
     const [mobileOpen, setMobileOpen] = useState(false);
@@ -61,7 +61,7 @@ function Navbar() {
                 open={mobileOpen}
                 onClose={handleDrawerToggle}
                 ModalProps={{
-                    keepMounted: true, // Better open performance on mobile.
+ keepMounted: true, // Better open performance on mobile.
                 }}
                 sx={{
                     display: { xs: 'block', sm: 'none' },
@@ -69,7 +69,7 @@ function Navbar() {
                 }}
             >
                 {drawer}
-            </Drawer>
+ </Drawer>
         </AppBar>
     );
 }

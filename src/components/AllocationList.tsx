@@ -28,15 +28,19 @@ function AllocationList() {
         setAllocations(response.data);
     };
 
-    const createAllocation = async () => {
-        await api.post('/allocations', {
-            dayOfWeek,
-            startHour,
-            endHour,
-            professorId,
-            courseId
-        });
-        fetchAllocations();
+    const createAllocation = async () => { // Added validation
+        if (dayOfWeek && startHour && endHour && professorId > 0 && courseId > 0) {
+            await api.post('/allocations', {
+                dayOfWeek,
+                startHour,
+                endHour,
+                professorId,
+                courseId
+            });
+            fetchAllocations();
+        } else {
+            console.log('Please fill all fields'); // Or show a user-friendly message
+        }
     };
 
     return (
@@ -44,15 +48,18 @@ function AllocationList() {
             <Typography variant="h4" component="h2" gutterBottom>
                 Alocações
             </Typography>
-            <Box sx={{ display: 'flex', gap: 2, mb: 4, flexWrap: 'wrap' }}>
+            <Paper elevation={2} sx={{ padding: '16px', marginBottom: '16px', borderRadius: '4px' }}> {/* Container principal do formulário */}
+                <Box sx={{ display: 'flex', gap: 2, mb: 2, flexWrap: 'wrap' }}> {/* Campos de texto */}
                 <TextField label="Dia da Semana" value={dayOfWeek} onChange={(e) => setDayOfWeek(e.target.value)} size="small" />
                 <TextField label="Hora de Início" value={startHour} onChange={(e) => setStartHour(e.target.value)} size="small" />
                 <TextField label="Hora de Fim" value={endHour} onChange={(e) => setEndHour(e.target.value)} size="small" />
                 <TextField label="ID do Professor" type="number" value={professorId} onChange={(e) => setProfessorId(Number(e.target.value))} size="small" />
                 <TextField label="ID do Curso" type="number" value={courseId} onChange={(e) => setCourseId(Number(e.target.value))} size="small" />
+                </Box>
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}> {/* Contêiner para alinhar o botão à direita */}
                 <Button onClick={createAllocation} variant="contained">Criar</Button>
-            </Box>
-
+                </Box>
+ </Paper> {/* Fechamento do Paper principal do formulário */}
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>

@@ -3,7 +3,6 @@ import Layout from '../components/Layout'; // Certifique-se que o caminho está 
 
 function Home() {
     return (
-        <Layout>
             <Container maxWidth="md">
                 <Box sx={{ mt: 4, mb: 4, textAlign: 'center' }}>
                     <Typography variant="h2" component="h1" gutterBottom>
@@ -21,7 +20,6 @@ function Home() {
                     </CardContent>
                 </Card>
             </Container>
-        </Layout>
     );
 }
 

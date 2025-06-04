@@ -4,13 +4,11 @@ import { Container, Typography, Box } from '@mui/material';
 
 function Departments() {
     return (
-        <Layout>
-            <Container>
-                <Box sx={{ my: 4 }}>
-                    <DepartmentList />
-                </Box>
-            </Container>
-        </Layout>
+        <Container>
+            <Box sx={{ my: 4 }}>
+                <DepartmentList />
+            </Box>
+        </Container>
     );
 }
 

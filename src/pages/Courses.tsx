@@ -4,14 +4,11 @@ import { Container, Typography, Box } from '@mui/material';
 
 function Courses() {
     return (
-        <Layout>
-            <Container maxWidth="lg">
-                <Box sx={{ my: 4 }}>
-                    <CourseList />
-                </Box>
-            </Container>
-        </Layout>
+        <Container maxWidth="lg">
+            <Box sx={{ my: 4 }}>
+                <CourseList />
+            </Box>
+        </Container>
     );
 }
-
 export default Courses;

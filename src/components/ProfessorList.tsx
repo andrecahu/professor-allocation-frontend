@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import api from '../services/api';
-import { Button, TextField, List, ListItem, ListItemText, Typography, Paper, Box } from '@mui/material';
+import { Button, TextField, Typography, Paper, Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 
 interface Professor {
     id: number;
@@ -39,25 +39,44 @@ function ProfessorList() {
     return (
         <Box sx={{ padding: 2 }}>
             <Typography variant="h4" gutterBottom>Professores</Typography>
-            <Box sx={{ display: 'flex', gap: 2, marginBottom: 3, flexDirection: { xs: 'column', sm: 'row' } }}>
-                <TextField label="Nome" value={name} onChange={(e) => setName(e.target.value)} fullWidth />
-                <TextField label="CPF" value={cpf} onChange={(e) => setCpf(e.target.value)} fullWidth />
-                <TextField
-                    label="Department ID"
-                    type="number"
-                    value={departmentId}
-                    onChange={(e) => setDepartmentId(Number(e.target.value))}
- fullWidth />
-            </Box>
-            <Button onClick={createProfessor} variant="contained" sx={{ mb: 2 }}>Criar</Button>
-
-            <List>
+            <Paper elevation={2} style={{ padding: '16px', marginBottom: '16px' }}>{/* Paper envolvendo o formulário */}
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>{/* Novo Box pai para organizar verticalmente */}
+                    <Box sx={{ display: 'flex', gap: 2, flexDirection: { xs: 'column', sm: 'row' } }}>{/* Box dos campos de texto */}
+                        <TextField label="Nome" value={name} onChange={(e) => setName(e.target.value)} fullWidth />
+                        <TextField label="CPF" value={cpf} onChange={(e) => setCpf(e.target.value)} fullWidth />
+                        <TextField
+                            label="Department ID"
+                            type="number"
+                            value={departmentId}
+                            onChange={(e) => setDepartmentId(Number(e.target.value))}
+                            fullWidth />
+                    </Box>
+                    <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>{/* Box para alinhar o botão à direita */}
+                        <Button onClick={createProfessor} variant="contained">Criar</Button>
+                    </Box>
+                </Box>
+            </Paper>
+            <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} aria-label="professors table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Nome</TableCell>
+                            <TableCell>CPF</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
                 {professors.map((prof) => (
-                    <ListItem key={prof.id}>
-                        <ListItemText primary={`${prof.name} - ${prof.cpf}`} />
-                    </ListItem>
+                            <TableRow
+                                key={prof.id}
+                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                            >
+                                <TableCell component="th" scope="row">{prof.name}</TableCell>
+                                <TableCell>{prof.cpf}</TableCell>
+                            </TableRow>
                 ))}
-            </List>
+                    </TableBody>
+                </Table>
+            </TableContainer>
         </Box>
     );
 }

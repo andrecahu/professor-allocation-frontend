@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
-import Professors from './pages/Professors';
 import Courses from './pages/Courses';
+import Professors from './pages/Professors';
 import Departments from './pages/Departments';
 import Allocations from './pages/Allocations';
 import Layout from './components/Layout';

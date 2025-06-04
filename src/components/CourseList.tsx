@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import api from '../services/api';
-import { Button, TextField, List, ListItem, ListItemText, Paper, Typography, Container } from '@mui/material';
+import { Button, TextField, Paper, Typography, Container, TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Box } from '@mui/material';
 
 interface Course {
     id: number;
@@ -32,21 +32,36 @@ function CourseList() {
  Cursos
  </Typography>
  <Paper elevation={2} style={{ padding: '16px', marginBottom: '16px' }}>
- <TextField label="Nome" value={name} onChange={(e) => setName(e.target.value)} fullWidth style={{ marginRight: '8px' }} />
- <Button onClick={createCourse} variant="contained" color="primary" style={{ marginTop: '16px' }}>
+ <Box sx={{ display: 'flex', gap: 2, flexDirection: { xs: 'column', sm: 'row' }, alignItems: 'center' }}>
+ <TextField label="Nome" value={name} onChange={(e) => setName(e.target.value)} fullWidth sx={{ mb: { xs: 2, sm: 0 } }} />
+ </Box>
+ <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+ <Button onClick={createCourse} variant="contained" color="primary" sx={{ mt: { xs: 2, sm: 0 } }}>
  Criar
  </Button>
+ </Box>
  </Paper>
 
- <List component={Paper} elevation={2}>
+
+ <TableContainer component={Paper} elevation={2}>
+ <Table>
+ <TableHead>
+ <TableRow>
+ <TableCell>Nome do Curso</TableCell>
+ </TableRow>
+ </TableHead>
+ <TableBody>
  {courses.map((course) => (
- <ListItem key={course.id}>
- <ListItemText primary={course.name} />
- </ListItem>
+ <TableRow key={course.id}>
+ <TableCell>{course.name}</TableCell>
+ </TableRow>
  ))}
- </List>
+ </TableBody>
+ </Table>
+ </TableContainer>
  </Container>
  );
 }
 
 export default CourseList;
+
