@@ -52,21 +52,6 @@ function AllocationList() {
         fetchAllocations();
     };
 
-    const createAllocation = async () => {
-        if (dayOfWeek && startHour && endHour && professorId > 0 && courseId > 0) {
-            await api.post('/allocations', {
-                dayOfWeek,
-                startHour,
-                endHour,
-                professorId,
-                courseId
-            });
-            fetchAllocations();
-        } else {
-            console.log('Please fill all fields');
-        }
-    };
-
     const handleSaveAllocation = async () => {
         if (dayOfWeek && startHour && endHour && professorId > 0 && courseId > 0) {
             if (editingAllocation) {
