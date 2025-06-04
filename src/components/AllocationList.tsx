@@ -13,11 +13,20 @@ interface Allocation {
 
 function AllocationList() {
     const [allocations, setAllocations] = useState<Allocation[]>([]);
-    const [dayOfWeek, setDayOfWeek] = useState('');
-    const [startHour, setStartHour] = useState('');
-    const [endHour, setEndHour] = useState('');
+    const [dayOfWeek, setDayOfWeek] = useState<string>('');
+    const [startHour, setStartHour] = useState<string>('');
+    const [endHour, setEndHour] = useState<string>('');
     const [professorId, setProfessorId] = useState<number>(0);
     const [courseId, setCourseId] = useState<number>(0);
+    const [editingAllocation, setEditingAllocation] = useState<Allocation | null>(null);
+
+    const clearForm = () => {
+        setDayOfWeek('');
+        setStartHour('');
+        setEndHour('');
+        setProfessorId(0);
+        setCourseId(0);
+    };
 
     useEffect(() => {
         fetchAllocations();
@@ -28,7 +37,22 @@ function AllocationList() {
         setAllocations(response.data);
     };
 
-    const createAllocation = async () => { // Added validation
+    const handleEditAllocation = (allocation: Allocation) => {
+        setEditingAllocation(allocation);
+        setDayOfWeek(allocation.dayOfWeek);
+        setStartHour(allocation.startHour);
+        setEndHour(allocation.endHour);
+        setProfessorId(allocation.professorId);
+        setCourseId(allocation.courseId);
+ setEditingAllocation(allocation);
+    };
+
+    const handleDeleteAllocation = async (id: number) => {
+        await api.delete(`/allocations/${id}`);
+        fetchAllocations();
+    };
+
+    const createAllocation = async () => {
         if (dayOfWeek && startHour && endHour && professorId > 0 && courseId > 0) {
             await api.post('/allocations', {
                 dayOfWeek,
@@ -39,27 +63,51 @@ function AllocationList() {
             });
             fetchAllocations();
         } else {
-            console.log('Please fill all fields'); // Or show a user-friendly message
+            console.log('Please fill all fields');
+        }
+    };
+
+    const handleSaveAllocation = async () => {
+        if (dayOfWeek && startHour && endHour && professorId > 0 && courseId > 0) {
+            if (editingAllocation) {
+                await api.put(`/allocations/${editingAllocation.id}`, {
+                    startHour,
+                    endHour,
+                    professorId,
+                    courseId
+                });
+            } else {
+                // Create new allocation
+ await api.post('/allocations', { dayOfWeek, startHour, endHour, professorId, courseId });
+            }
+ setEditingAllocation(null);
+ clearForm();
+ fetchAllocations();
         }
     };
 
     return (
         <Box sx={{ mt: 4, mb: 4 }}>
-            <Typography variant="h4" component="h2" gutterBottom>
+ <Typography variant="h4" component="h2" gutterBottom>
                 Alocações
             </Typography>
-            <Paper elevation={2} sx={{ padding: '16px', marginBottom: '16px', borderRadius: '4px' }}> {/* Container principal do formulário */}
-                <Box sx={{ display: 'flex', gap: 2, mb: 2, flexWrap: 'wrap' }}> {/* Campos de texto */}
+ <Paper elevation={2} sx={{ padding: '16px', marginBottom: '16px', borderRadius: '4px' }}>
+ <Box sx={{ display: 'flex', gap: 2, mb: 2, flexWrap: 'wrap' }}>
                 <TextField label="Dia da Semana" value={dayOfWeek} onChange={(e) => setDayOfWeek(e.target.value)} size="small" />
                 <TextField label="Hora de Início" value={startHour} onChange={(e) => setStartHour(e.target.value)} size="small" />
                 <TextField label="Hora de Fim" value={endHour} onChange={(e) => setEndHour(e.target.value)} size="small" />
                 <TextField label="ID do Professor" type="number" value={professorId} onChange={(e) => setProfessorId(Number(e.target.value))} size="small" />
                 <TextField label="ID do Curso" type="number" value={courseId} onChange={(e) => setCourseId(Number(e.target.value))} size="small" />
                 </Box>
-                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}> {/* Contêiner para alinhar o botão à direita */}
-                <Button onClick={createAllocation} variant="contained">Criar</Button>
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1 }}>
+ {editingAllocation && (
+                        <Button onClick={() => { setEditingAllocation(null); clearForm(); }} variant="outlined">
+                            Cancelar Edição
+                        </Button>
+ )}
+ <Button onClick={handleSaveAllocation} variant="contained">{editingAllocation ? 'Salvar' : 'Criar'}</Button>
                 </Box>
- </Paper> {/* Fechamento do Paper principal do formulário */}
+ </Paper>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
@@ -70,6 +118,7 @@ function AllocationList() {
                             <TableCell>Hora de Fim</TableCell>
                             <TableCell>ID do Professor</TableCell>
                             <TableCell>ID do Curso</TableCell>
+                            <TableCell>Ações</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -84,6 +133,10 @@ function AllocationList() {
                                 <TableCell>{alloc.endHour}</TableCell>
                                 <TableCell>{alloc.professorId}</TableCell>
                                 <TableCell>{alloc.courseId}</TableCell>
+                                <TableCell>
+                                    <Button onClick={() => handleDeleteAllocation(alloc.id)} variant="outlined" color="secondary" size="small">Excluir</Button>
+                                    <Button onClick={() => handleEditAllocation(alloc)} variant="outlined" color="primary" size="small" sx={{ ml: 1 }}>Editar</Button>
+                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

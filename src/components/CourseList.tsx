@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import api from '../services/api';
-import { Button, TextField, Paper, Typography, Container, TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Box } from '@mui/material';
+import { Button, TextField, Paper, Typography, Container, TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Box, Stack } from '@mui/material';
 
 interface Course {
     id: number;
     name: string;
+
 }
 
 function CourseList() {
@@ -26,6 +27,29 @@ function CourseList() {
         fetchCourses();
     };
 
+    const [editingCourse, setEditingCourse] = useState<Course | null>(null);
+
+    const handleEditCourse = (course: Course) => {
+        setEditingCourse(course);
+        setName(course.name);
+    };
+
+    const handleDeleteCourse = async (id: number) => {
+        await api.delete(`/courses/${id}`);
+        fetchCourses();
+    };
+
+    const handleSaveCourse = async () => {
+        if (editingCourse) {
+            await api.put(`/courses/${editingCourse.id}`, { name });
+        } else {
+            await api.post('/courses', { name });
+        }
+        setEditingCourse(null);
+        fetchCourses();
+    };
+
+
  return (
  <Container>
  <Typography variant="h4" component="h2" gutterBottom>
@@ -36,8 +60,13 @@ function CourseList() {
  <TextField label="Nome" value={name} onChange={(e) => setName(e.target.value)} fullWidth sx={{ mb: { xs: 2, sm: 0 } }} />
  </Box>
  <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
- <Button onClick={createCourse} variant="contained" color="primary" sx={{ mt: { xs: 2, sm: 0 } }}>
- Criar
+ {editingCourse && ( // Show Cancel button when editing
+ <Button onClick={() => { setName(''); setEditingCourse(null); }} variant="outlined" sx={{ mr: 1 }}>
+ Cancelar Edição
+ </Button>
+ )}
+ <Button onClick={editingCourse ? handleSaveCourse : createCourse} variant="contained" color="primary">
+ {editingCourse ? 'Salvar' : 'Criar'}
  </Button>
  </Box>
  </Paper>
@@ -47,13 +76,20 @@ function CourseList() {
  <Table>
  <TableHead>
  <TableRow>
- <TableCell>Nome do Curso</TableCell>
+ <TableCell>Nome</TableCell>
+ <TableCell>Ações</TableCell>
  </TableRow>
  </TableHead>
  <TableBody>
  {courses.map((course) => (
  <TableRow key={course.id}>
  <TableCell>{course.name}</TableCell>
+ <TableCell>
+ <Stack direction="row" spacing={1}>
+ <Button onClick={() => handleEditCourse(course)} variant="contained" color="primary" size="small">Editar</Button>
+ <Button onClick={() => handleDeleteCourse(course.id)} variant="contained" color="secondary" size="small">Excluir</Button>
+ </Stack>
+ </TableCell>
  </TableRow>
  ))}
  </TableBody>
